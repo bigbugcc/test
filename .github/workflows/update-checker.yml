@@ -6,8 +6,8 @@ env:
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '40 4 1,28 * ?'
+  #schedule:
+  # - cron: '40 4 1,28 * ?'
 
 jobs:
   check:
