@@ -1,0 +1,24 @@
+<rd-header>
+  <rd-header-title title-text="Environments">
+    <a data-toggle="tooltip" title="刷新" ui-sref="portainer.endpoints" ui-sref-opts="{reload: true}">
+      <i class="fa fa-sync" aria-hidden="true"></i>
+    </a>
+  </rd-header-title>
+  <rd-header-content>环境管理</rd-header-content>
+</rd-header>
+
+<view-loading ng-if="state.loadingMessage" message="state.loadingMessage"></view-loading>
+
+<div class="row" ng-if="!state.loadingMessage">
+  <div class="col-sm-12">
+    <endpoints-datatable
+      title-text="环境"
+      title-icon="fa-plug"
+      table-key="endpoints"
+      order-by="Name"
+      remove-action="removeAction"
+      retrieve-page="getPaginatedEndpoints"
+      set-loading-message="setLoadingMessage"
+    ></endpoints-datatable>
+  </div>
+</div>
