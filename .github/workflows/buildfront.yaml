@@ -1,44 +1,46 @@
 name: Portainer front build
-
 on:
   push:
-    branches: [ main ]
+    branches:
+    - master
 jobs:
-  build-publish-release
+  build:
   	runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v2 # 先检出代码
+    - name: Checkout
+      uses: actions/checkout@v2
         
-      - name: Node ENV
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: https://registry.npmjs.org/ # 如果不配置将影响publish
+    - name: Node ENV
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: https://registry.npmjs.org/
           
-      - name: Install Yarn 
-        run: npm i -g yarn
+    - name: Install Yarn 
+      run: npm i -g yarn
        
-      - name: Install dependencies
-        run: yarn -i
+    - name: Install dependencies
+      working-directory: './'
+      run: yarn -i
       
-       - name: Build front
-        working-directory: './'
-        run: yarn run build:client
+    - name: Build front
+      working-directory: './'
+      run: yarn run build:client
         
-      - name: Read package.json
-        uses: tyankatsu0105/read-package-version-actions@v1
-        with:
-          path: './'
-        id: package-version
+    - name: Read package.json
+      id: package-version
+      uses: tyankatsu0105/read-package-version-actions@v1
+      with:
+        path: './'
         
-      - name: Create Release for Tag
-        id: release_tag
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.Release_TOKEN }}
-        with:
-          tag_name: Portainer-${{ steps.package-version.version }}
-          release_name: Release Portainer-${{ steps.package-version.version }}
-          prerelease: false
+    - name: Create Release for Tag
+      id: release_tag
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.Release_TOKEN }}
+      with:
+        tag_name: Portainer-${{ steps.package-version.version }}
+        release_name: Release Portainer-${{ steps.package-version.version }}
+        prerelease: false
             
