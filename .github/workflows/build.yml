@@ -19,6 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Go environment
       - uses: actions/setup-go@v3
         with:
           go-version: ${{ env.go-version }}
