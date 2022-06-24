@@ -24,18 +24,21 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
           registry-url: https://registry.npmjs.org/
-          
+      
+      - name: Go environment
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.go-version }}
+        run: go version
+
       - name: Install yarn 
         run: npm i -g yarn
        
       - name: Install dependencies
         run: yarn -i
       
-      # - name: Build source
-      #   uses: actions/setup-go@v3
-      #   with:
-      #     go-version: ${{ env.go-version }}
-      #   run: go version && yarn start
+      - name: Build source
+        run: yarn start
 
       - name: Packagin front...
         run: tar -zcvf ${{ env.frontfile }} -C ./dist/ public
