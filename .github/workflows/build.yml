@@ -38,8 +38,10 @@ jobs:
       - name: Install dependencies
         run: yarn -i
       
-      - name: Build source
+      - name: File permissions
         run: chmod +x build/*
+
+      - name: Build source
         run: yarn start
 
       - name: Packagin front...
