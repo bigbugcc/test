@@ -25,11 +25,11 @@ jobs:
           node-version: ${{ env.node-version }}
           registry-url: https://registry.npmjs.org/
       
-      - name: Go environment
-        uses: actions/setup-go@v3
-        with:
-          go-version: ${{ env.go-version }}
-        run: go version
+      # - name: Go environment
+      #   uses: actions/setup-go@v3
+      #   with:
+      #     go-version: ${{ env.go-version }}
+      #   run: go version
 
       - name: Install yarn 
         run: npm i -g yarn
