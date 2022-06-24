@@ -5,14 +5,14 @@ on:
   pull_request:
     branches: [ master ]
   workflow_dispatch:
-  
+
+env:
+  frontfile: 'front-public.tar.gz'
+  node-version: '16.13.2'
+
 jobs:
   build-front:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.13.2]
         
     steps:  
       - name: Checkout
@@ -21,7 +21,7 @@ jobs:
       - name: Node Environment
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.node-version }}
           registry-url: https://registry.npmjs.org/
           
       - name: Install yarn 
@@ -32,6 +32,9 @@ jobs:
       
       - name: Build front
         run: yarn run build:client
+
+      - name: Packagin...
+        run: tar zcvf ${{ env.front-public }} ./dist/public
         
       - name: Read package.json
         id: version
@@ -39,15 +42,17 @@ jobs:
         
       - name: Create Release
         id: release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Portainer front - v${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Portainer front - v${{ steps.version.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
           body: |
             Changes in this Release
             - First Change
             - Second Change
-          prerelease: false
+          files: |
+            ${{ env.front-public }}
             
