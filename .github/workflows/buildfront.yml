@@ -4,7 +4,7 @@ on:
     branches:
     - master
 jobs:
-  publish-front:
+  published-front:
   	runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,7 +17,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org/
           
-      - name: Install Yarn 
+      - name: Install yarn 
         run: npm i -g yarn
        
       - name: Install dependencies
