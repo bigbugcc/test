@@ -45,13 +45,14 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.version.outputs.version }}
-          name: Portainer front - v${{ steps.version.outputs.version }}
+          name: Portainer front(CN) - v${{ steps.version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           body: |
             Changes in this Release
-            - First Change
-            - Second Change
+            - 前端若干汉化补充
+            🐬DockerHub
+            - [查看](https://hub.docker.com/r/bigbugcc/portainer)
           files: |
             ${{ env.frontfile }}
             
