@@ -4,11 +4,13 @@ on:
     branches:
     - master
 jobs:
-  published-front:
+  build-front:
   	runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [16.13.2]
+        
     steps:
       - name: Checkout Nodejs
         uses: actions/checkout@v2
