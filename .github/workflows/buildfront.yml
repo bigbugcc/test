@@ -1,4 +1,4 @@
-name: Portainer front build
+name: Portainer Build
 on:
   push:
     branches: [ master ]
@@ -30,8 +30,11 @@ jobs:
       - name: Install dependencies
         run: yarn -i
       
-      - name: Build front
-        run: yarn run build:client
+      - name: Build Source
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17.0'
+        run: yarn start
 
       - name: Packagin...
         run: tar -zcvf ${{ env.frontfile }} -C ./dist/ public
@@ -55,7 +58,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./
           push: true
           file: ./build/linux/Dockerfile
           platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
@@ -64,6 +67,9 @@ jobs:
           tags: |
             bigbugcc/portainer-ce:latest
             bigbugcc/portainer-ce:v${{ steps.version.outputs.version }}
+      
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
         
       - name: Create Release
         id: release
@@ -74,10 +80,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           body: |
-            Changes in this Release
-            - 前端若干汉化补充   
-            DockerHub🐬   
-            - [查看](https://hub.docker.com/r/bigbugcc/portainer)
+            Release Note:
+            - 前端若干汉化补充 
+            - [ DockerHub🐬 ](https://hub.docker.com/r/bigbugcc/portainer)
           files: |
             ${{ env.frontfile }}
             
