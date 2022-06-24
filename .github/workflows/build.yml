@@ -1,4 +1,4 @@
-name: Portainer-ce Build
+name: Portainer-ce Build(CN)
 on:
   push:
     branches: [ master ]
@@ -23,6 +23,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.node-version }}
+        run: node --version
           
       - name: Install yarn 
         run: npm i -g yarn
@@ -86,4 +87,3 @@ jobs:
             - [ DockerHub🐬 ](https://hub.docker.com/r/bigbugcc/portainer)
           files: |
             ${{ env.frontfile }}
-            
