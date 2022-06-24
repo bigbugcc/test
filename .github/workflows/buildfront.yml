@@ -28,18 +28,15 @@ jobs:
         run: npm i -g yarn
        
       - name: Install dependencies
-        working-directory: './'
         run: yarn -i
       
       - name: Build front
-        working-directory: './'
         run: yarn run build:client
         
       - name: Read package.json
         id: version
         uses: tyankatsu0105/read-package-version-actions@v1
         with:
-          path: './package.json'
           property: version
         
       - name: Create Release for Tag
