@@ -15,8 +15,10 @@ jobs:
         node-version: [16.13.2]
         
     steps:  
-      - name: Checkout Nodejs
+      - name: Checkout
         uses: actions/checkout@v2
+      
+      - name: Node Environment
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
