@@ -1,4 +1,4 @@
-name: Portainer(CN) Build
+name: Portainer-ce Build
 on:
   push:
     branches: [ master ]
