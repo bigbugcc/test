@@ -41,10 +41,10 @@ jobs:
         id: release_tag
         uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: Portainer front-v${{ steps.version.outputs.version  }}
-          release_name: Portainer front-v${{ steps.version.outputs.version  }}
+          tag_name: Portainer front - v1.0
+          release_name: Portainer front - v1.0
           body: |
             Changes in this Release
             - First Change
