@@ -55,7 +55,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build docker
+        id: docker
         uses: docker/build-push-action@v3
         with:
           context: ./
@@ -67,6 +68,9 @@ jobs:
           tags: |
             bigbugcc/portainer-ce:latest
             bigbugcc/portainer-ce:v${{ steps.version.outputs.version }}
+      
+      - name: Image digest
+        run: echo ${{ steps.docker.outputs.digest }}
         
       - name: Create Release
         id: release
