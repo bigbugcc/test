@@ -34,7 +34,7 @@ jobs:
         run: yarn run build:client
 
       - name: Packagin...
-        run: tar -zcvf ${{ env.front-public }} ./dist/public/
+        run: tar -zcvf ${{ env.frontfile }} ./dist/public/
         
       - name: Read package.json
         id: version
@@ -54,5 +54,5 @@ jobs:
             - First Change
             - Second Change
           files: |
-            ${{ env.front-public }}
+            ${{ env.frontfile }}
             
