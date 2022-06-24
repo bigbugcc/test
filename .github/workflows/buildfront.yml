@@ -62,8 +62,8 @@ jobs:
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,dest=/tmp/.buildx-cache
           tags: |
-            bigbugcc/portainer:latest
-            bigbugcc/portainer:v${{ steps.version.outputs.version }}
+            bigbugcc/portainer-ce:latest
+            bigbugcc/portainer-ce:v${{ steps.version.outputs.version }}
         
       - name: Create Release
         id: release
