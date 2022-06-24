@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.node-version }}
-        run: node --version
+          registry-url: https://registry.npmjs.org/
           
       - name: Install yarn 
         run: npm i -g yarn
@@ -66,7 +66,7 @@ jobs:
           platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,dest=/tmp/.buildx-cache
-          tags: |
+          tags: | 
             bigbugcc/portainer-ce:latest
             bigbugcc/portainer-ce:v${{ steps.version.outputs.version }}
       
@@ -81,9 +81,9 @@ jobs:
           name: Portainer front(CN) - v${{ steps.version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
-          body: |
+          body: | 
             Release Note:
             - 前端若干汉化补充 
             - [ DockerHub🐬 ](https://hub.docker.com/r/bigbugcc/portainer)
-          files: |
+          files: | 
             ${{ env.frontfile }}
