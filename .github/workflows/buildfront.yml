@@ -4,40 +4,44 @@ on:
     branches:
     - master
 jobs:
-  build-front:
+  publish-front:
   	runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.13.2]
     steps:
-    - name: Checkout Nodejs
-      uses: actions/checkout@v2
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-        registry-url: https://registry.npmjs.org/
+      - name: Checkout Nodejs
+        uses: actions/checkout@v2
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
           
-    - name: Install Yarn 
-      run: npm i -g yarn
+      - name: Install Yarn 
+        run: npm i -g yarn
        
-    - name: Install dependencies
-      working-directory: './'
-      run: yarn -i
+      - name: Install dependencies
+        working-directory: './'
+        run: yarn -i
       
-    - name: Build front
-      working-directory: './'
-      run: yarn run build:client
+      - name: Build front
+        working-directory: './'
+        run: yarn run build:client
         
-    - name: Read package.json
-      id: package-version
-      uses: tyankatsu0105/read-package-version-actions@v1
-      with:
-        path: './'
+      - name: Read package.json
+        id: version
+        uses: tyankatsu0105/read-package-version-actions@v1
+        with:
+          path: './package.json'
+          property: version
         
-    - name: Create Release for Tag
-      id: release_tag
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.Release_TOKEN }}
-      with:
-        tag_name: Portainer-${{ steps.package-version.version }}
-        release_name: Release Portainer-${{ steps.package-version.version }}
-        prerelease: false
+      - name: Create Release for Tag
+        id: release_tag
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.Release_TOKEN }}
+        with:
+          tag_name: Portainer front-v${{ steps.version.outputs.value }}
+          release_name: Portainer front-v${{ steps.version.outputs.value }}
+          prerelease: false
             
