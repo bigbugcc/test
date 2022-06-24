@@ -19,23 +19,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Go environment
       - uses: actions/setup-go@v3
         with:
           go-version: ${{ env.go-version }}
-      - run: go version
+
+      - name: Go environment
+        run: go version
       
       - name: Node environment
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.node-version }}
           registry-url: https://registry.npmjs.org/
-      
-      # - name: Go environment
-      #   uses: actions/setup-go@v3
-      #   with:
-      #     go-version: ${{ env.go-version }}
-      #   run: go version
 
       - name: Install yarn 
         run: npm i -g yarn
