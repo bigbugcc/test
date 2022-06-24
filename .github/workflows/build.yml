@@ -39,6 +39,7 @@ jobs:
         run: yarn -i
       
       - name: Build source
+        run: chmod +x build/*
         run: yarn start
 
       - name: Packagin front...
