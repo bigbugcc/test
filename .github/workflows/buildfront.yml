@@ -36,16 +36,14 @@ jobs:
       - name: Read package.json
         id: version
         uses: tyankatsu0105/read-package-version-actions@v1
-        with:
-          property: version
         
       - name: Create Release for Tag
         id: release_tag
-        uses: actions/create-release@v1
+        uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.Release_TOKEN }}
         with:
-          tag_name: Portainer front-v${{ steps.version.outputs.value }}
-          release_name: Portainer front-v${{ steps.version.outputs.value }}
+          tag_name: Portainer front-v${{ steps.version.outputs.version  }}
+          release_name: Portainer front-v${{ steps.version.outputs.version  }}
           prerelease: false
             
