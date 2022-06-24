@@ -1,0 +1,220 @@
+<rd-header>
+  <rd-header-title title-text="FDO Device Configuration"></rd-header-title>
+  <rd-header-content> <a ui-sref="portainer.endpoints">环境</a> &gt; 导入 FDO 设备 </rd-header-content>
+</rd-header>
+
+<div class="row">
+  <div class="col-sm-12">
+    <rd-widget>
+      <rd-widget-header icon="fa-magic" title-text="Import Device Set up"></rd-widget-header>
+      <rd-widget-body>
+        <form class="form-horizontal" name="fdoForm">
+          <!-- info -->
+          <span class="small">
+            <p class="text-muted" style="margin-top: 10px">
+              <i class="fa fa-exclamation-circle blue-icon" aria-hidden="true" style="margin-right: 2px"></i>
+              您正在设置Portainer边缘代理，该代理将启动与Portainer实例和FDO设备的通信.
+            </p>
+          </span>
+          <!-- !info -->
+          <!-- import voucher -->
+          <div class="col-sm-12 form-section-title"> 导入凭证 </div>
+          <div>
+            <div class="form-group" ng-show="!state.vouchersUploaded">
+              <span class="small col-sm-12">
+                <p class="text-muted" style="margin-top: 10px">
+                  <i class="fa fa-exclamation-circle blue-icon" aria-hidden="true" style="margin-right: 2px"></i>
+                  导入一个或多个制造商的所有权凭证以启动设备认证
+                </p>
+              </span>
+              <div class="col-sm-8">
+                <button
+                  style="margin-left: 0px !important"
+                  class="btn btn-sm btn-primary"
+                  ngf-select="onVoucherFilesChange()"
+                  ng-model="formValues.VoucherFiles"
+                  name="VoucherFiles"
+                  ng-disabled="state.vouchersUploading"
+                  button-spinner="state.vouchersUploading"
+                  multiple
+                >
+                  <span ng-hide="state.vouchersUploading">上传 <i class="fa fa-upload" aria-hidden="true" style="margin-left: 5px"></i></span>
+                  <span ng-show="state.vouchersUploading">正在上传凭证...</span>
+                </button>
+              </div>
+            </div>
+            <div class="form-group" ng-show="state.vouchersUploading">
+              <div class="col-sm-12 small text-success">
+                <p>连接到所有者服务...</p>
+              </div>
+            </div>
+            <div class="form-group" ng-show="state.vouchersUploaded">
+              <div class="col-sm-12">
+                <p>已上传所有权凭证 <i class="fa fa-check green-icon" aria-hidden="true" style="margin-left: 5px"></i></p>
+              </div>
+            </div>
+          </div>
+          <!-- !import voucher -->
+          <!-- device details -->
+          <div class="col-sm-12 form-section-title"> 设备详情 </div>
+          <div>
+            <span class="small">
+              <p class="text-muted" style="margin-top: 10px">
+                <i class="fa fa-exclamation-circle blue-icon" aria-hidden="true" style="margin-right: 2px"></i>
+                设备名称将作为您在Portainer中的参考名称
+              </p>
+            </span>
+            <!-- device name input -->
+            <div class="form-group">
+              <label for="device_name" class="col-sm-3 col-lg-2 control-label text-left">设备名称</label>
+              <div class="col-sm-9 col-lg-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="device_name"
+                  placeholder="e.g. FDO-Test01"
+                  ng-model="formValues.DeviceName"
+                  ng-required="state.vouchersUploaded"
+                  ng-disabled="!state.vouchersUploaded"
+                  auto-focus
+                  data-cy="deviceImport-deviceNameInput"
+                />
+              </div>
+            </div>
+            <div class="form-group" ng-show="fdoForm.device_name.$invalid">
+              <div class="col-sm-12 small text-warning">
+                <div ng-messages="fdoForm.device_name.$error">
+                  <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 必填项.</p>
+                </div>
+              </div>
+            </div>
+            <!-- !device name input -->
+            <!-- suffix input -->
+            <span class="small">
+              <p class="text-muted" style="margin-top: 10px">
+                <i class="fa fa-exclamation-circle blue-icon" aria-hidden="true" style="margin-right: 2px"></i>
+                后缀起始编号将附加到设备名称的末尾，如果启动多个设备，则会递增
+              </p>
+            </span>
+            <div class="form-group">
+              <label for="suffix" class="col-sm-3 col-lg-2 control-label text-left"> 后缀起始编号 </label>
+              <div class="col-sm-9 col-lg-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="suffix"
+                  ng-model="formValues.Suffix"
+                  ng-required="state.vouchersUploaded"
+                  ng-disabled="!state.vouchersUploaded"
+                  ng-pattern="/^[0-9]+$/"
+                  placeholder="1"
+                  required
+                  data-cy="deviceImport-suffixInput"
+                />
+              </div>
+            </div>
+            <div class="form-group" ng-show="fdoForm.suffix.$invalid">
+              <div class="col-sm-12 small text-warning">
+                <div ng-messages="fdoForm.suffix.$error">
+                  <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 必填项.</p>
+                  <p ng-message="pattern"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 此字段必须是正整数.</p>
+                </div>
+              </div>
+            </div>
+            <!-- !suffix input -->
+            <!-- portainer-instance-input -->
+            <div class="form-group">
+              <label for="endpoint_url" class="col-sm-3 col-lg-2 control-label text-left">
+                Portainer 服务端 URL
+                <portainer-tooltip position="bottom" message="代理将用于启动通信的Portainer实例的URL."></portainer-tooltip>
+              </label>
+              <div class="col-sm-9 col-lg-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="endpoint_url"
+                  ng-model="formValues.PortainerURL"
+                  ng-required="state.vouchersUploaded"
+                  ng-disabled="!state.vouchersUploaded"
+                  placeholder="e.g. https://10.0.0.10:9443"
+                  required
+                  data-cy="deviceImport-portainerServerUrlInput"
+                />
+              </div>
+            </div>
+            <div class="form-group" ng-show="fdoForm.endpoint_url.$invalid">
+              <div class="col-sm-12 small text-warning">
+                <div ng-messages="fdoForm.endpoint_url.$error">
+                  <p ng-message="required"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 必填项.</p>
+                </div>
+              </div>
+            </div>
+            <!-- !portainer-instance-input -->
+          </div>
+          <!-- device profile input -->
+          <div class="form-group">
+            <label for="device_profile" class="col-sm-3 col-lg-2 control-label text-left">设备配置文件</label>
+            <div class="col-sm-9 col-lg-10">
+              <select id="device_profile" ng-model="formValues.DeviceProfile" class="form-control" ng-required="state.vouchersUploaded" ng-disabled="!state.vouchersUploaded">
+                <option selected disabled hidden value="">选择设备配置文件</option>
+                <option ng-repeat="profile in profiles | orderBy: 'name'" ng-value="profile.id">{{ profile.name }}</option>
+              </select>
+            </div>
+          </div>
+          <!-- !device profile input -->
+          <!-- !device details -->
+          <!-- tags -->
+          <div class="col-sm-12 form-section-title"> 设置标签 </div>
+          <div>
+            <span class="small">
+              <p class="text-muted" style="margin-top: 10px">
+                <i class="fa fa-exclamation-circle blue-icon" aria-hidden="true" style="margin-right: 2px"></i>
+                如果您的设备属于某个组，这只是一个选项
+              </p>
+            </span>
+            <!-- group -->
+            <div class="form-group">
+              <label for="device_group" class="col-sm-3 col-lg-2 control-label text-left"> 分组 </label>
+              <div class="col-sm-9 col-lg-10">
+                <select
+                  class="form-control"
+                  ng-options="group.Id as group.Name for group in groups"
+                  ng-model="formValues.GroupId"
+                  id="device_group"
+                  ng-required="state.vouchersUploaded"
+                  ng-disabled="!state.vouchersUploaded"
+                  data-cy="deviceImport-deviceGroup"
+                ></select>
+              </div>
+            </div>
+            <!-- !group -->
+            <!-- tags -->
+            <div class="form-group">
+              <tag-selector ng-if="formValues && availableTags" tags="availableTags" model="formValues.TagIds" allow-create="state.allowCreateTag" on-create="(onCreateTag)">
+              </tag-selector>
+            </div>
+            <!-- !tags -->
+            <!-- actions -->
+            <div class="form-group">
+              <div class="col-sm-12">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  ng-click="createEndpointAndConfigureDevice()"
+                  ng-disabled="state.actionInProgress || !state.vouchersUploaded || !fdoForm.$valid"
+                  button-spinner="state.actionInProgress"
+                  data-cy="deviceImport-saveDeviceButton"
+                >
+                  <span ng-hide="state.actionInProgress">保存配置</span>
+                  <span ng-show="state.actionInProgress">正在保存配置...</span>
+                </button>
+                <a type="button" class="btn btn-default btn-sm" ui-sref="portainer.endpoints">取消</a>
+              </div>
+            </div>
+            <!-- !actions -->
+          </div>
+        </form>
+      </rd-widget-body>
+    </rd-widget>
+  </div>
+</div>
