@@ -18,6 +18,11 @@ jobs:
     steps:  
       - name: Checkout
         uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.go-version }}
+      - run: go version
       
       - name: Node environment
         uses: actions/setup-node@v1
