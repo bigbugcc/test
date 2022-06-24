@@ -30,13 +30,14 @@ jobs:
       - name: Install dependencies
         run: yarn -i
       
-      - name: Build Source
+      - name: Build source
       - uses: actions/setup-go@v3
         with:
           go-version: '>=1.17.0'
+        run: go version
         run: yarn start
 
-      - name: Packagin...
+      - name: Packagin front...
         run: tar -zcvf ${{ env.frontfile }} -C ./dist/ public
         
       - name: Read package.json
