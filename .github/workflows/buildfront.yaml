@@ -1,16 +1,18 @@
 name: Portainer front build
 on:
   push:
-    branches:
-    - master
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 jobs:
   build-front:
-  	runs-on: ubuntu-20.04
+
+  	runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [16.13.2]
-
+        
     steps:
       - name: Checkout Nodejs
         uses: actions/checkout@v2
