@@ -1,4 +1,4 @@
-name: Portainer Build
+name: Portainer(CN) Build
 on:
   push:
     branches: [ master ]
@@ -9,6 +9,7 @@ on:
 env:
   frontfile: 'front-public.tar.gz'
   node-version: '16.13.2'
+  go-version: '>=1.17.0'
 
 jobs:
   build-front:
@@ -33,7 +34,7 @@ jobs:
       - name: Build source
       - uses: actions/setup-go@v3
         with:
-          go-version: '>=1.17.0'
+          go-version: ${{ env.go-version }}
         run: go version && yarn start
 
       - name: Packagin front...
