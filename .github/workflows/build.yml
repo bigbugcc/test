@@ -89,6 +89,6 @@ jobs:
           body: | 
             Release Note:
             - 前端若干汉化补充 
-            - [ DockerHub🐬 ](https://hub.docker.com/r/bigbugcc/portainer)
+            - [ DockerHub🐬 ](https://hub.docker.com/r/bigbugcc/portainer-ce)
           files: | 
             ${{ env.frontfile }}
