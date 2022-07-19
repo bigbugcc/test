@@ -9,7 +9,6 @@ jobs:
     permissions:
       issues: write
       actions: write
-      contents: write
     steps:
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
