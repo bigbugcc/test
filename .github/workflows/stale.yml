@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      actions: read
+      actions: write
+      contents: write
     steps:
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
