@@ -6,7 +6,9 @@ on:
 jobs:
   stale:
     runs-on: ubuntu-latest
-
+    permissions:
+      issues: write
+      actions: read
     steps:
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
